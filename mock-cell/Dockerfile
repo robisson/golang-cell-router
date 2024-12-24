@@ -7,4 +7,6 @@ COPY . .
 
 RUN go build -o mock-cell .
 
+EXPOSE 8080
+
 CMD ["./mock-cell"]

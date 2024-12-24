@@ -1,0 +1,19 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: 'cell-router'
+    static_configs:
+      - targets: ['192.168.68.108:8080']
+    metrics_path: '/metrics'
+    scrape_timeout: 10s
+    honor_labels: true
+    metric_relabel_configs:
+      - source_labels: [__name__]
+        regex: '(requests_total|request_latency.*|requests_success_total|requests_error_total)'
+        action: keep
+
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['192.168.68.108:9090']

@@ -28,6 +28,24 @@ services:
     networks:
       - cell-network
 
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    networks:
+      - cell-network
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    networks:
+      - cell-network
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+
 networks:
   cell-network:
     driver: bridge
