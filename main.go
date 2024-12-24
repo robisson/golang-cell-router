@@ -38,9 +38,6 @@ func initOpenTelemetry() func() {
 	)
 	otel.SetTracerProvider(tracerProvider)
 
-	// Use promhttp.Handler() instead of the exporter directly
-	http.Handle("/metrics", promhttp.Handler())
-
 	return func() {
 		_ = meterProvider.Shutdown(context.Background())
 		_ = tracerProvider.Shutdown(context.Background())
@@ -51,7 +48,20 @@ func main() {
 	cleanup := initOpenTelemetry()
 	defer cleanup()
 
+	// Create a new mux for metrics
+	metricsMux := http.NewServeMux()
+	metricsMux.Handle("/metrics", promhttp.Handler())
+
+	// Start metrics server in a goroutine
+	go func() {
+		log.Println("Starting metrics server on :2112")
+		if err := http.ListenAndServe(":2112", metricsMux); err != nil {
+			log.Fatal(err)
+		}
+	}()
+
+	// Start application server
 	r := router.NewRouter()
-	log.Println("Starting server on :8080")
+	log.Println("Starting application server on :8080")
 	log.Fatal(http.ListenAndServe(":8080", r))
 }
