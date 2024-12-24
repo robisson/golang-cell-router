@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  cell-router:
+    build: .
+    ports:
+      - "8080:8080"
+    networks:
+      - cell-network
+
+  cell1:
+    build:
+      context: ./mock-cell
+    environment:
+      - CELL_NAME=cell1
+    ports:
+      - "8081:8080"
+    networks:
+      - cell-network
+
+  cell2:
+    build:
+      context: ./mock-cell
+    environment:
+      - CELL_NAME=cell2
+    ports:
+      - "8082:8080"
+    networks:
+      - cell-network
+
+networks:
+  cell-network:
+    driver: bridge

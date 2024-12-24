@@ -1,0 +1,18 @@
+{
+	"cells": [
+		{
+			"name": "cell1",
+			"endpoint": "http://192.168.68.108:8081",
+			"variable": "client_id",
+			"range_from": 1,
+			"range_to": 100
+		},
+		{
+			"name": "cell2",
+			"endpoint": "http://192.168.68.108:8082",
+			"variable": "client_id",
+			"range_from": 101,
+			"range_to": 200
+		}
+	]
+}
