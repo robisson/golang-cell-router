@@ -1,67 +1,107 @@
 {
-  "dashboard": {
-    "id": null,
-    "title": "Cell Router Dashboard",
-    "panels": [
-      {
-        "type": "graph",
-        "title": "Requests per Second",
-        "targets": [
-          {
-            "expr": "rate(requests_total[1m])",
-            "legendFormat": "requests",
-            "refId": "A"
-          }
-        ]
-      },
-      {
-        "type": "graph",
-        "title": "Request Latency",
-        "targets": [
-          {
-            "expr": "histogram_quantile(0.5, sum(rate(request_latency_bucket[5m])) by (le))",
-            "legendFormat": "p50",
-            "refId": "A"
-          },
-          {
-            "expr": "histogram_quantile(0.9, sum(rate(request_latency_bucket[5m])) by (le))",
-            "legendFormat": "p90",
-            "refId": "B"
-          },
-          {
-            "expr": "histogram_quantile(0.99, sum(rate(request_latency_bucket[5m])) by (le))",
-            "legendFormat": "p99",
-            "refId": "C"
-          },
-          {
-            "expr": "histogram_quantile(1, sum(rate(request_latency_bucket[5m])) by (le))",
-            "legendFormat": "p100",
-            "refId": "D"
-          }
-        ]
-      },
-      {
-        "type": "graph",
-        "title": "Successful Requests",
-        "targets": [
-          {
-            "expr": "rate(requests_success_total[1m])",
-            "legendFormat": "success",
-            "refId": "A"
-          }
-        ]
-      },
-      {
-        "type": "graph",
-        "title": "Failed Requests",
-        "targets": [
-          {
-            "expr": "rate(requests_error_total[1m])",
-            "legendFormat": "errors",
-            "refId": "A"
-          }
-        ]
-      }
-    ]
-  }
+    "dashboard": {
+        "id": "cell-router-dashboard",
+        "title": "Cell Router Dashboard",
+        "panels": [
+            {
+                "type": "graph",
+                "title": "Requests per Second",
+                "targets": [
+                    {
+                        "expr": "rate(requests_total[1m])",
+                        "legendFormat": "requests",
+                        "refId": "A"
+                    }
+                ],
+                "xaxis": {
+                    "mode": "time"
+                },
+                "yaxes": [
+                    {
+                        "format": "short",
+                        "label": "Requests per Second"
+                    }
+                ]
+            },
+            {
+                "type": "graph",
+                "title": "Request Latency",
+                "targets": [
+                    {
+                        "expr": "histogram_quantile(0.5, sum(rate(request_latency_bucket[5m])) by (le)) / 1000",
+                        "legendFormat": "p50",
+                        "refId": "A"
+                    },
+                    {
+                        "expr": "histogram_quantile(0.9, sum(rate(request_latency_bucket[5m])) by (le)) / 1000",
+                        "legendFormat": "p90",
+                        "refId": "B"
+                    },
+                    {
+                        "expr": "histogram_quantile(0.99, sum(rate(request_latency_bucket[5m])) by (le)) / 1000",
+                        "legendFormat": "p99",
+                        "refId": "C"
+                    },
+                    {
+                        "expr": "histogram_quantile(1, sum(rate(request_latency_bucket[5m])) by (le)) / 1000",
+                        "legendFormat": "p100",
+                        "refId": "D"
+                    }
+                ],
+                "xaxis": {
+                    "mode": "time"
+                },
+                "yaxes": [
+                    {
+                        "format": "s",
+                        "label": "Latency (seconds)"
+                    }
+                ]
+            },
+            {
+                "type": "graph",
+                "title": "Successful Requests",
+                "targets": [
+                    {
+                        "expr": "rate(requests_success_total[1m])",
+                        "legendFormat": "success",
+                        "refId": "A"
+                    }
+                ],
+                "xaxis": {
+                    "mode": "time"
+                },
+                "yaxes": [
+                    {
+                        "format": "short",
+                        "label": "Requests per Second"
+                    }
+                ]
+            },
+            {
+                "type": "graph",
+                "title": "Failed Requests",
+                "targets": [
+                    {
+                        "expr": "rate(requests_error_total[1m])",
+                        "legendFormat": "errors",
+                        "refId": "A"
+                    }
+                ],
+                "xaxis": {
+                    "mode": "time"
+                },
+                "yaxes": [
+                    {
+                        "format": "short",
+                        "label": "Requests per Second"
+                    }
+                ]
+            }
+        ],
+        "time": {
+            "from": "now-1h",
+            "to": "now"
+        }
+    }
 }

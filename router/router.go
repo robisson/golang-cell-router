@@ -36,7 +36,7 @@ func NewRouter() *Router {
 		metric.WithDescription("Total number of requests received"))
 
 	latency, _ := meter.Float64Histogram("request_latency",
-		metric.WithDescription("Request latency in seconds"))
+		metric.WithDescription("Request latency in milliseconds"))
 
 	successCount, _ := meter.Int64Counter("requests_success_total",
 		metric.WithDescription("Total number of successful requests"))
@@ -121,7 +121,7 @@ func (r *Router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 			w.WriteHeader(resp.StatusCode)
 			io.Copy(w, resp.Body)
 
-			r.latency.Record(ctx, time.Since(startTime).Seconds())
+			r.latency.Record(ctx, float64(time.Since(startTime).Milliseconds()))
 			if resp.StatusCode >= 200 && resp.StatusCode < 300 {
 				r.successCount.Add(ctx, 1)
 			} else {
