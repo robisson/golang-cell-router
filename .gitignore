@@ -1,0 +1,18 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, coverage reports, and result files
+*.test
+*.out
+*.html
+
+# Temporary files
+*.tmp
+*.temp
+
+# Configuration files
+config.json

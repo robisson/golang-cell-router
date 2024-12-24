@@ -17,8 +17,10 @@ type CellConfig struct {
 	RangeTo   int    `json:"range_to"`
 }
 
+var configFilePath = "config.json"
+
 func LoadConfig() *Config {
-	file, _ := os.Open("config.json")
+	file, _ := os.Open(configFilePath)
 	defer file.Close()
 	decoder := json.NewDecoder(file)
 	config := &Config{}

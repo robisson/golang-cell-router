@@ -33,7 +33,14 @@ func (r *Router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	for _, cell := range r.config.Cells {
 		if clientID >= cell.RangeFrom && clientID <= cell.RangeTo {
 			log.Printf("Routing to cell: %s, endpoint: %s", cell.Name, cell.Endpoint)
-			proxyURL, _ := url.Parse(cell.Endpoint)
+
+			proxyURL, err := url.Parse(cell.Endpoint)
+			if err != nil {
+				log.Printf("Error parsing endpoint URL: %v", err)
+				http.Error(w, "Invalid endpoint URL", http.StatusInternalServerError)
+				return
+			}
+
 			proxyReq, err := http.NewRequest(req.Method, proxyURL.String(), req.Body)
 			if err != nil {
 				log.Printf("Error creating proxy request: %v", err)
